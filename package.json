@@ -1,15 +1,13 @@
 {
   "name": "qucikky-redis-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "",
   "description": "QuickkyRedisClient",
   "license": "",
   "main": "./dist/electron/main.js",
   "gypfile": false,
   "scripts": {
-    "build": "node .electron-vue/build.js && electron-builder --win --ia32",
-    "build-win32": "node .electron-vue/build.js && electron-builder --ia32",
-    "build-win64": "node .electron-vue/build.js && electron-builder --ia64",
+    "build-win32": "node .electron-vue/build.js && electron-builder --win --ia32",
     "build-linux": "node .electron-vue/build.js && electron-builder --linux",
     "build-mac": "node .electron-vue/build.js && electron-builder --mac",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
