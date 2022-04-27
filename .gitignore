@@ -1,0 +1,9 @@
+.DS_Store
+thumbs.db
+dist/*
+build/*
+node_modules/
+/.idea/
+/log.txt
+/package-lock.json
+/setting.json
