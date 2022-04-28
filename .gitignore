@@ -1,9 +1,8 @@
 .DS_Store
 thumbs.db
-dist/*
-build/*
+log.txt
+package-lock.json
+dist/
+build/
 node_modules/
-/.idea/
-/log.txt
-/package-lock.json
-/setting.json
+.idea/
