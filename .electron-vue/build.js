@@ -2,10 +2,10 @@
 
 process.env.NODE_ENV = 'production'
 
-const { say } = require('cfonts')
+const {say} = require('cfonts')
 const chalk = require('chalk')
 const del = require('del')
-const { spawn } = require('child_process')
+const {spawn} = require('child_process')
 const webpack = require('webpack')
 const Multispinner = require('multispinner')
 
@@ -13,6 +13,7 @@ const Multispinner = require('multispinner')
 const mainConfig = require('./webpack.main.config')
 const rendererConfig = require('./webpack.renderer.config')
 const webConfig = require('./webpack.web.config')
+const path = require("path");
 
 const doneLog = chalk.bgGreen.white(' DONE ') + ' '
 const errorLog = chalk.bgRed.white(' ERROR ') + ' '
@@ -23,16 +24,31 @@ if (process.env.BUILD_TARGET === 'clean') clean()
 else if (process.env.BUILD_TARGET === 'web') web()
 else build()
 
-function clean () {
+function clean() {
   del.sync(['build/*', '!build/icons', '!build/icons/icon.*'])
   console.log(`\n${doneLog}\n`)
   process.exit()
 }
 
-function build () {
+function createAppPackageJson() {
+  console.log("create app/package.json")
+  const parentPackage = require('../package.json')
+  const appPackage = require('../app/_package.json')
+  appPackage.name = parentPackage.name
+  appPackage.description = parentPackage.description
+  appPackage.author = parentPackage.author
+  appPackage.version = parentPackage.version
+  appPackage.license = parentPackage.license
+  const fs = require('fs')
+  fs.writeFileSync(path.resolve(__dirname, '../app/package.json'), JSON.stringify(appPackage, null, 2), 'utf8')
+}
+
+function build() {
   greeting()
 
-  del.sync(['dist/electron/*', '!.gitkeep'])
+  createAppPackageJson()
+
+  del.sync(['app/dist/electron/*', '!.gitkeep'])
 
   const tasks = ['main', 'renderer']
   const m = new Multispinner(tasks, {
@@ -70,7 +86,7 @@ function build () {
   })
 }
 
-function pack (config) {
+function pack(config) {
   return new Promise((resolve, reject) => {
     config.mode = 'production'
     webpack(config, (err, stats) => {
@@ -82,10 +98,10 @@ function pack (config) {
           chunks: false,
           colors: true
         })
-        .split(/\r?\n/)
-        .forEach(line => {
-          err += `    ${line}\n`
-        })
+          .split(/\r?\n/)
+          .forEach(line => {
+            err += `    ${line}\n`
+          })
 
         reject(err)
       } else {
@@ -98,8 +114,8 @@ function pack (config) {
   })
 }
 
-function web () {
-  del.sync(['dist/web/*', '!.gitkeep'])
+function web() {
+  del.sync(['app/dist/web/*', '!.gitkeep'])
   webConfig.mode = 'production'
   webpack(webConfig, (err, stats) => {
     if (err || stats.hasErrors()) console.log(err)
@@ -113,7 +129,7 @@ function web () {
   })
 }
 
-function greeting () {
+function greeting() {
   const cols = process.stdout.columns
   let text = ''
 
