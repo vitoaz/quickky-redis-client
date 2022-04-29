@@ -30,11 +30,15 @@ function createWindow() {
     resizable: true,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
       webSecurity: false
     },
     show: false,
     icon: Path.join(__dirname, '../../static/icons/fav.ico')
   })
+
+  require('@electron/remote/main').initialize()
+  require('@electron/remote/main').enable(mainWindow.webContents)
 
   mainWindow.loadURL(winURL)
   mainWindow.on('ready-to-show', () => {

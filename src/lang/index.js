@@ -5,14 +5,14 @@ import enUS from './en-us'
 import eleZhCN from 'element-ui/lib/locale/lang/zh-CN'
 import eleEnUS from 'element-ui/lib/locale/lang/en'
 import AppUtil from '@/utils/AppUtil'
-import Electron from 'electron'
+import {app} from '@electron/remote'
 
 Vue.use(VueI18n)
 
 let locale = AppUtil.loadValue('lang')
 // fallback to system language
 if (!locale) {
-  if (Electron.remote.app.getLocale() === 'zh-CN') {
+  if (app.getLocale() === 'zh-CN') {
     locale = 'zh-CN'
   } else {
     locale = 'en-US'

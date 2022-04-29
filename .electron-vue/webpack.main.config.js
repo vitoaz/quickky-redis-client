@@ -45,7 +45,7 @@ let mainConfig = {
   output: {
     filename: '[name].js',
     libraryTarget: 'commonjs2',
-    path: path.join(__dirname, '../app/dist/electron')
+    path: path.join(__dirname, '../dist/electron')
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin()

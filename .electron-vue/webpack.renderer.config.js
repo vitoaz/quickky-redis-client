@@ -145,7 +145,7 @@ let rendererConfig = {
       },
       nodeModules: process.env.NODE_ENV !== 'production'
           ? path.resolve(__dirname, '../node_modules')
-          : path.resolve(__dirname, '../node_modules') // false
+          : false
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
@@ -153,7 +153,7 @@ let rendererConfig = {
   output: {
     filename: '[name].js',
     libraryTarget: 'commonjs2',
-    path: path.join(__dirname, '../app/dist/electron')
+    path: path.join(__dirname, '../dist/electron')
   },
   resolve: {
     alias: {
@@ -191,7 +191,7 @@ if (process.env.NODE_ENV === 'production') {
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),
-        to: path.join(__dirname, '../app/dist/electron/static'),
+        to: path.join(__dirname, '../dist/electron/static'),
         ignore: ['.*']
       }
     ]),

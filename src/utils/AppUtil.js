@@ -1,7 +1,7 @@
 import StorageUtil from '@/utils/StorageUtil'
 import Log from 'electron-log'
 import pack from '@/../package.json'
-import Electron from 'electron'
+import {app} from '@electron/remote'
 
 /**
  * wrapper the log to log with console and log file both
@@ -37,7 +37,8 @@ class AppUtil {
    * get userData path
    */
   getUserDataPath() {
-    return Electron.remote.app.getPath('userData')
+    console.log(app)
+    return app.getPath('userData')
   }
 
   /**

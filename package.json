@@ -5,6 +5,7 @@
   "description": "QuickkyRedisClient",
   "license": "MIT",
   "gypfile": false,
+  "main": "./dist/electron/main.js",
   "devListenPort": 9031,
   "scripts": {
     "build-win32": "node .electron-vue/build.js && electron-builder --win --ia32",
@@ -107,7 +108,8 @@
     "css-loader": "0.28.11",
     "del": "3.0.0",
     "devtron": "1.4.0",
-    "electron": "2.0.18",
+    "electron": "18.2.0",
+    "@electron/remote": "2.0.8",
     "electron-builder": "21.2.0",
     "electron-debug": "3.2.0",
     "electron-devtools-installer": "3.2.0",

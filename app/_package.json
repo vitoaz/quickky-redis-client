@@ -1,5 +1,0 @@
-{
-  "description": "dependencies for main process",
-  "main": "./dist/electron/main.js",
-  "dependencies": {}
-}
