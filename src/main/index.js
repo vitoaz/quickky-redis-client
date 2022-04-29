@@ -1,4 +1,4 @@
-import {app, BrowserWindow, globalShortcut} from 'electron'
+import {app, BrowserWindow} from 'electron'
 import Path from 'path'
 
 /**
@@ -47,10 +47,6 @@ function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null
-  })
-
-  globalShortcut.register('CommandOrControl+Shift+i', () => {
-    mainWindow.webContents.openDevTools()
   })
 }
 
