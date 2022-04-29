@@ -10,7 +10,7 @@
       </el-result>
     </div>
     <div v-else>
-      <el-button style="margin-bottom: 5px"  @click="loadData">{{ $t('opt.refresh') }}</el-button>
+      <el-button style="margin-bottom: 5px" @click="loadData">{{ $t('opt.refresh') }}</el-button>
       <!-- cluster -->
       <div v-if="redis.mode==='cluster'">
         <div style="font-size: 20px; margin-bottom: 10px">Cluster Nodes</div>
@@ -28,10 +28,14 @@
           </el-table-column>
           <el-table-column prop="type" label="Type" width="80" align="center"></el-table-column>
           <el-table-column prop="mem" label="Memory" align="center"></el-table-column>
-          <el-table-column prop="keys" label="Keys Num" align="center"></el-table-column>
+          <el-table-column prop="keys" label="Keys" align="center"></el-table-column>
           <el-table-column prop="ops" label="Ops" align="center"></el-table-column>
           <el-table-column prop="clients" label="Clients" align="center"></el-table-column>
-          <el-table-column prop="state" label="State" align="center" width="100"></el-table-column>
+          <el-table-column prop="state" label="State" align="center" width="100">
+            <template slot-scope="scope">
+              <span class="state" :class="{'state-err': scope.row.state!=='connected'}">{{ scope.row.state }}</span>
+            </template>
+          </el-table-column>
         </el-table>
         <div style="font-size: 20px; margin-bottom: 10px">Nodes Info</div>
         <el-table v-for="(tmp, i) in infoDatas"
@@ -48,7 +52,7 @@
           </el-table-column>
           <el-table-column prop="value" label="value">
             <template slot-scope="scope">
-              <div v-if="scope.row.key === 'Info'">
+              <div v-if="scope.row.key === 'Node Info'">
                 <a v-if="!scope.row.open" @click="rawOpenClose(scope.row)">{{ $t('opt.unfold') + '>' }}</a>
                 <a v-else @click="rawOpenClose(scope.row)">{{ $t('opt.fold') + '<' }}</a>
                 <pre v-if="scope.row.open">{{ scope.row.value }}</pre>
@@ -69,7 +73,7 @@
           <el-table-column prop="key" label="key" width="200"></el-table-column>
           <el-table-column prop="value" label="value">
             <template slot-scope="scope">
-              <div v-if="scope.row.key === 'Info'">
+              <div v-if="scope.row.key === 'Node Info'">
                 <a v-if="!scope.row.open" @click="rawOpenClose(scope.row)">{{ $t('opt.unfold') + '>' }}</a>
                 <a v-else @click="rawOpenClose(scope.row)">{{ $t('opt.fold') + '<' }}</a>
                 <pre v-if="scope.row.open">{{ scope.row.value }}</pre>
@@ -175,15 +179,15 @@ export default {
       infoData.push({key: 'Redis Mode', value: `${info.redis_mode}`})
       infoData.push({key: 'Up Time', value: `${Math.round(info.uptime_in_seconds / 60 / 60 * 100) / 100}H`})
       infoData.push({key: 'Memory', value: `${info.used_memory_human}`})
-      infoData.push({key: 'Keys Num', value: info.keys})
+      infoData.push({key: 'Keys', value: info.keys})
       infoData.push({key: 'Connected Clients', value: `${info.connected_clients}`})
       const total = parseInt(info.keyspace_misses) + parseInt(info.keyspace_hits)
       const hit_ratio = Math.round(info.keyspace_misses / total * 100)
-      infoData.push({key: 'Hit Ratio', value: `${hit_ratio}%`})
+      //infoData.push({key: 'Hit Ratio', value: `${hit_ratio}%`})
       infoData.push({key: 'Ops', value: `${info.instantaneous_ops_per_sec}`})
       infoData.push({key: 'In', value: `${info.instantaneous_input_kbps}kb/s`})
       infoData.push({key: 'Out', value: `${info.instantaneous_output_kbps}kb/s`})
-      infoData.push({key: 'Info', value: info.raw, open: false})
+      infoData.push({key: 'Node Info', value: info.raw, open: false})
       return infoData
     },
 
@@ -245,6 +249,13 @@ export default {
   margin-right: 10px;
   display: inline-block;
   vertical-align: top;
+}
+
+.state {
+  color: #5cb87a;
+  &.state-err {
+    color: #f56c6c;
+  }
 }
 
 </style>
