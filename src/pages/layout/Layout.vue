@@ -2,7 +2,7 @@
   <el-container style="height: 100%;background: #eee">
     <el-header class="header">
       <div class="title">
-        QuickkyRedisClient
+        <span style="cursor: pointer" @click="jumpGithub">QuickkyRedisClient</span>
       </div>
     </el-header>
     <el-container>
@@ -64,6 +64,11 @@ export default {
       if (path) {
         this.$router.push(path)
       }
+    },
+
+    jumpGithub() {
+      const {shell} = require('electron')
+      shell.openExternal('https://github.com/vitoaz/quickky-redis-client')
     }
   }
 }
