@@ -3,8 +3,7 @@
   "version": "0.1.1-0",
   "author": "vitoaz(vitoaaazzz@gmail.com)",
   "description": "QuickkyRedisClient",
-  "license": "",
-  "main": "./dist/electron/main.js",
+  "license": "MIT",
   "gypfile": false,
   "scripts": {
     "build-win32": "node .electron-vue/build.js && electron-builder --win --ia32",
