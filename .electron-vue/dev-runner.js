@@ -73,7 +73,8 @@ function startRenderer () {
       }
     )
 
-    server.listen(9031)
+    const p = require('../package.json')
+    server.listen(p.devListenPort)
   })
 }
 

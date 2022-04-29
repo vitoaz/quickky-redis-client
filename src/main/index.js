@@ -9,9 +9,11 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+const p = require('../../package.json')
+
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9031`
+  ? `http://localhost:${p.devListenPort}`
   : `file://${__dirname}/index.html`
 
 function createWindow() {

@@ -5,6 +5,7 @@
   "description": "QuickkyRedisClient",
   "license": "MIT",
   "gypfile": false,
+  "devListenPort": 9031,
   "scripts": {
     "build-win32": "node .electron-vue/build.js && electron-builder --win --ia32",
     "build-linux": "node .electron-vue/build.js && electron-builder --linux",
