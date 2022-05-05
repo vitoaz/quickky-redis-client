@@ -30,10 +30,25 @@ function clean() {
   process.exit()
 }
 
+function createAppPackageJson() {
+  console.log("create app/package.json")
+  const parentPackage = require('../package.json')
+  const appPackage = require('../app/_package.json')
+  appPackage.name = parentPackage.name
+  appPackage.description = parentPackage.description
+  appPackage.author = parentPackage.author
+  appPackage.version = parentPackage.version
+  appPackage.license = parentPackage.license
+  const fs = require('fs')
+  fs.writeFileSync(path.resolve(__dirname, '../app/package.json'), JSON.stringify(appPackage, null, 2), 'utf8')
+}
+
 function build() {
   greeting()
 
-  del.sync(['dist/electron/*', '!.gitkeep'])
+  createAppPackageJson()
+
+  del.sync(['app/dist/electron/*', '!.gitkeep'])
 
   const tasks = ['main', 'renderer']
   const m = new Multispinner(tasks, {
