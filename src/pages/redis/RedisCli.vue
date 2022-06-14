@@ -3,7 +3,7 @@
   <div style="height: 100%; position: relative">
     <pre class="log-box">{{ log }}</pre>
     <el-select class="cmd-history" :placeholder="$t('title.historyCmd')" value="" @change="selHistory">
-      <el-option v-for="(item,i) in history"
+      <el-option v-for="(item,i) in historyReverse"
                  :key="i"
                  :label="item"
                  :value="i">
@@ -48,7 +48,8 @@ export default {
       log: '',
       cmd: '',
       historyIndex: 0,
-      history: []
+      history: [],
+      historyReverse: []
     }
   },
 
@@ -64,6 +65,7 @@ export default {
       const historyObj = Datas.redis.getHistory(this.redis.option.id)
       if (historyObj.cmds) {
         this.history = historyObj.cmds
+        this.historyReverse = this.history.reverse()
         this.historyIndex = this.history.length - 1
       }
     },
@@ -81,13 +83,24 @@ export default {
 
         this.appendLog(`>>  ${cmd}`)
         const res = await RedisUtil.exec(this.redis, cmd)
-        this.history.push(cmd)
-        if (this.history.length > 100) {
-          this.history = this.history.splice(0, 1)
-        }
-        this.historyIndex = this.history.length - 1
-        Datas.redis.updateHistory({id: this.redis.option.id, cmds: this.history})
         this.appendLog(`<<  ${res}`)
+
+        // add to history
+        let needAddHistory = true
+        if (this.history.length > 0) {
+          if (cmd === this.history[this.history.length - 1]) {
+            needAddHistory = false
+          }
+        }
+        if (needAddHistory) {
+          this.history.push(cmd)
+          if (this.history.length > 100) {
+            this.history = this.history.splice(0, 1)
+          }
+          this.historyIndex = this.history.length - 1
+          Datas.redis.updateHistory({id: this.redis.option.id, cmds: this.history})
+          this.historyReverse = this.history.reverse()
+        }
       } catch (e) {
         this.appendLog(`<<  ${e.message}`)
       }
