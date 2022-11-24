@@ -1,7 +1,7 @@
 <!-- redis cli -->
 <template>
   <div style="height: 100%; position: relative">
-    <pre class="log-box">{{ log }}</pre>
+    <pre ref="logBox" class="log-box">{{ log }}</pre>
     <el-select class="cmd-history" :placeholder="$t('title.historyCmd')" value="" @change="selHistory">
       <el-option v-for="(item,i) in historyReverse"
                  :key="i"
@@ -72,6 +72,10 @@ export default {
 
     appendLog(text) {
       this.log += text + '\r\n'
+      // scroll to bottom
+      this.$nextTick(() => {
+        this.$refs.logBox.scrollTop = this.$refs.logBox.scrollHeight
+      })
     },
 
     async sendCmd(cmd) {
