@@ -234,7 +234,7 @@ class RedisUtil {
    */
   async connExec(redis, conn, fullCmd) {
     const parts = fullCmd.split(' ')
-    const cmd = parts[0]
+    const cmd = parts[0].toLowerCase()
     parts.splice(0, 1)
 
     const f = conn[cmd]
