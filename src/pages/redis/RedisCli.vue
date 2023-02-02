@@ -17,10 +17,9 @@
                 type="textarea"
                 :placeholder="$t('tip.redisCmd')">
       </el-input>
-      <el-button
-          class="send-btn"
-          type="primary"
-          @click="enter">
+      <el-button class="send-btn"
+                 type="primary"
+                 @click="enter">
         {{ $t('opt.send') }}
       </el-button>
     </div>
