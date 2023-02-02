@@ -101,6 +101,7 @@ export default {
       this.fitAddon = new FitAddon()
       this.term.loadAddon(this.fitAddon)
       this.term.onKey(this.termKey)
+      this.term.onData(this.termData)
       this.termPrompt()
       setTimeout(() => {
         this.fitAddon.fit()
@@ -179,12 +180,19 @@ export default {
       }
     },
 
+    termData(data) {
+      // ctrl symbol
+      if (data.charCodeAt(0) < 32) {
+        return
+      }
+      this.term.write(data)
+    },
+
     termKey(e) {
-      const printable = !e.domEvent.altKey && !e.domEvent.ctrlKey && !e.domEvent.metaKey
       const y = this.term.buffer.active.baseY + this.term.buffer.active.cursorY
       const x = this.term.buffer.active.cursorX
       const code = e.domEvent.which
-      console.log(this.term)
+      console.log(e.key)
       if (code === 13) {
         // enter
         console.log(`y=${y}`)
@@ -215,8 +223,6 @@ export default {
         if (x > 1) {
           this.term.write(e.key)
         }
-      } else if (printable) {
-        this.term.write(e.key)
       }
     },
 
