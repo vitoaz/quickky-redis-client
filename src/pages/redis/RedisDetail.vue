@@ -27,7 +27,7 @@
         </el-aside>
         <el-main>
           <transition name="fade">
-            <redis-cli v-show="menuIndex==='cli'" :redis="redis" :reconnect="connect"/>
+            <redis-cli :showed="menuIndex==='cli'" v-show="menuIndex==='cli'" :redis="redis" :reconnect="connect"/>
           </transition>
           <transition name="fade">
             <redis-brwose v-show="menuIndex==='browse'" :redis="redis" :reconnect="connect"/>
